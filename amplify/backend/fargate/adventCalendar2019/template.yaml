@@ -31,3 +31,33 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub "AdventCalendar2019VpcPublicSubnet1-${env}"
+  AdventCalendar2019VpcPublicSubnet1RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: AdventCalendar2019Vpc
+  AdventCalendar2019VpcPublicSubnet1RouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: AdventCalendar2019VpcPublicSubnet1RouteTable
+      SubnetId:
+        Ref: AdventCalendar2019VpcPublicSubnet1
+  AdventCalendar2019VpcPublicSubnet1DefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: AdventCalendar2019VpcPublicSubnet1RouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: AdventCalendar2019VpcIGW
+    DependsOn:
+      - MyVpcVPCGW488ACE0D
+    Metadata:
+      aws:cdk:path: CdkFargateStack/MyVpc/PublicSubnet1/DefaultRoute
+  AdventCalendar2019VpcIGW:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "AdventCalendar2019VpcIGW-${env}"

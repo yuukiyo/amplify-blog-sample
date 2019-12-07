@@ -1,0 +1,33 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "AWS Amplify Advent Calendar 2019"
+Parameters:
+  env:
+    Type: "String"
+    Description: "The environment name. e.g. Dev, Test, or Production"
+    Default: "NONE"
+Resources:
+  AdventCalendar2019Vpc:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: !Sub "AdventCalendar2019Vpc-${env}"
+  AdventCalendar2019VpcPublicSubnet1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 10.0.0.0/18
+      VpcId:
+        Ref: AdventCalendar2019Vpc
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub "AdventCalendar2019VpcPublicSubnet1-${env}"

@@ -1,0 +1,8 @@
+{
+	"fargate": {
+		"adventCalendar2019": {
+			"service": "ECS",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
